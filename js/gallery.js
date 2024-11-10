@@ -63,3 +63,32 @@ const images = [
     description: "Lighthouse Coast Sea",
   },
 ];
+
+// Знаходимо контейнер галереї
+const galleryContainer = document.querySelector(".gallery");
+
+// Створюємо розмітку елементів галереї
+const galleryMarkup = images
+  .map(({ preview, original, description }) => {
+    return `
+      <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+          <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+          />
+        </a>
+      </li>
+    `;
+  })
+  .join("");
+
+// Додаємо розмітку в контейнер
+galleryContainer.innerHTML = galleryMarkup;
+
+// Забороняємо стандартну поведінку за замовчуванням для посилань
+galleryContainer.addEventListener("click", (event) => {
+  event.preventDefault();
+});
