@@ -62,10 +62,10 @@ const images = [
       "https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg",
     description: "Lighthouse Coast Sea",
   },
-]; // Знаходимо контейнер галереї
+];
+
 const galleryContainer = document.querySelector(".gallery");
 
-// Створюємо розмітку елементів галереї
 const galleryMarkup = images
   .map(({ preview, original, description }) => {
     return `
@@ -83,29 +83,25 @@ const galleryMarkup = images
   })
   .join("");
 
-// Додаємо розмітку в контейнер
 galleryContainer.innerHTML = galleryMarkup;
 
-// Забороняємо стандартну поведінку за замовчуванням для посилань
 galleryContainer.addEventListener("click", (event) => {
   event.preventDefault();
 });
 
-// Додаємо прослуховувач кліків на контейнер
 galleryContainer.addEventListener("click", onGalleryItemClick);
 
-// Функція для обробки кліка
 function onGalleryItemClick(event) {
-  event.preventDefault(); // Запобігаємо відкриттю зображення в новій вкладці
+  event.preventDefault();
 
-  // Перевіряємо, що кліком був саме елемент <img> з класом .gallery-image
   const isGalleryImage = event.target.classList.contains("gallery-image");
+  if (!isGalleryImage) return;
 
-  if (!isGalleryImage) return; // Якщо не на зображенні галереї, припиняємо виконання
-
-  // Дістаємо посилання на велике зображення з data-атрибута
   const largeImageURL = event.target.dataset.source;
 
-  // Виводимо посилання на велике зображення в консоль
-  console.log(largeImageURL);
+  const instance = basicLightbox.create(`
+    <img src="${largeImageURL}" width="1112" height="640">
+  `);
+
+  instance.show();
 }
